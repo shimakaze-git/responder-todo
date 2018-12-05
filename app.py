@@ -18,4 +18,3 @@ api.add_route("/hello/{who}", hello_to)
 if __name__ == "__main__":
     port = 5000
     api.run(port=port)
-
