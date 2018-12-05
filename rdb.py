@@ -12,7 +12,7 @@ from sqlalchemy.orm import sessionmaker
 Base = declarative_base()
 
 RDB_PATH = 'sqlite:///db.sqlite3'
-ECHO_LOG = True
+ECHO_LOG = False
 engine = create_engine(
     RDB_PATH, echo=ECHO_LOG
 )

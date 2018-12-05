@@ -23,24 +23,28 @@ class Tasks(Base):
     id = Column(
         INTEGER(unsigned=True),
         primary_key=True,
-        nullable=False,
+        # nullable=False,
         autoincrement=True
     )
+    img_path = Column(String, nullable=True)
     name = Column(String(256))
     text = Column(String(256))
     created_at = Column(
         DateTime,
+        default=datetime.now(),
         nullable=False,
         server_default=current_timestamp()
     )
     updated_at = Column(
         DateTime,
+        default=datetime.now(),
         nullable=False,
-        onupdate=datetime.now
+        onupdate=datetime.now()
         # server_default=text(
         #     'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'
         # )
     )
+
 
 if __name__ == "__main__":
     path = SQLITE3_NAME
