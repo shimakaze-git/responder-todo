@@ -36,20 +36,17 @@ class TestTodo(unittest.TestCase):
     def test_add_todo(self):
         name = "test_name"
         text = "test_text"
-        img_path = "/img/test"
-        add_todo(name, text, img_path)
+        add_todo(name, text)
 
         id = 1
         task = get_todo(id)
         self.assertEqual(task['name'], name)
         self.assertEqual(task['text'], text)
-        self.assertEqual(task['img_path'], img_path)
 
     def test_get_todo(self):
         name = "test_name"
         text = "test_text"
-        img_path = "/img/test"
-        add_todo(name, text, img_path)
+        add_todo(name, text)
 
         id = 1
         task = get_todo(id)
@@ -58,13 +55,11 @@ class TestTodo(unittest.TestCase):
     def test_get_list_todo(self):
         name = "test_name"
         text = "test_text"
-        img_path = "/img/test"
-        add_todo(name, text, img_path)
+        add_todo(name, text)
 
         name = "test_name"
         text = "test_text"
-        img_path = "/img/test"
-        add_todo(name, text, img_path)
+        add_todo(name, text)
 
         tasks = get_todo_list()
         self.assertIsNotNone(tasks)
@@ -74,13 +69,11 @@ class TestTodo(unittest.TestCase):
         id = 1
         name = "test_name2"
         text = "test_text2"
-        img_path = "/img/test2"
-        update_todo(id, name, text, img_path)
+        update_todo(id, name, text)
 
         task = get_todo(id)
         self.assertEqual(task['name'], name)
         self.assertEqual(task['text'], text)
-        self.assertEqual(task['img_path'], img_path)
 
     def test_delete_todo(self):
         id = 1

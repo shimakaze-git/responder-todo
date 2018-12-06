@@ -7,6 +7,7 @@ Created on 2018/12/6
 
 import responder
 from responder import API
+import time
 
 from todo import add_todo
 from todo import delete_todo
@@ -16,46 +17,43 @@ from todo import get_todo_list
 
 api = responder.API()
 
-class Test:
-    def on_get(self, req, resp):
-        # print(dir(req))
-        # print(req.method)
-        resp.text = "test2"
-
-# def hello_to(req, resp, *, who):
-#     resp.media = {"hello": who}
-
-# def get_todo(req, resp, *, id):
-#     resp.text = ""
-
-# def get_todo_list(req, resp):
-#     resp.text = ""
-
-# def add_todo(req, resp):
-#     print(req)
-#     resp.text = "test"
-#     # resp.media = {"hello": who}
-
-# def update_todo(req, resp, *, id):
-#     resp.text = ""
-
-# def delete_todo(req, resp, *, id):
-#     resp.text = ""
 
 class UpdateGetDeleteTodo:
+
     def on_get(self, req, resp, *, id):
         todo = get_todo(id)
         resp.media = {
             "status": True,
             "todo": todo
         }
-    def on_put(self, req, resp, *, id):
-        pass
-    
-    def on_delete(self, req, resp, *, id):
-        pass
 
-#api/todo
+    async def on_put(self, req, resp, *, id):
+        @api.background.task
+        def process_update_todo(name, text):
+            time.sleep(3)
+            update_todo(id, name, text)
+
+        data = await req.media()
+        name = data['name']
+        text = data['text']
+
+        process_update_todo(name, text)
+        resp.media = {
+            'status': True
+        }
+
+    async def on_delete(self, req, resp, *, id):
+        @api.background.task
+        def process_delete_todo():
+            time.sleep(3)
+            delete_todo(id)
+
+        process_delete_todo()
+        resp.media = {
+            'status': True
+        }
+
+
 class AddGetTodo:
 
     def on_get(self, req, resp):
@@ -65,18 +63,22 @@ class AddGetTodo:
             "todos": todos
         }
 
-    def on_post(self, req, resp):
-        # print(dir(req))
-        print(req.params)
-        data = req.media
-        print(data)
-        # print(data['username'])
-        # print(dir(data))
-        resp.text = ""
+    async def on_post(self, req, resp):
+        @api.background.task
+        def process_add_todo(name, text):
+            time.sleep(3)
+            add_todo(name, text)
 
-api.add_route("/hello", Test)
-# api.add_route("/hello/{who}", hello_to)
-# api.add_route("/hello/{who}", hello_to)
+        data = await req.media()
+        name = data['name']
+        text = data['text']
+
+        process_add_todo(name, text)
+        resp.media = {
+            'status': True
+        }
+
+
 api.add_route("/api/todo", AddGetTodo)
 api.add_route("/api/todo/{id}", UpdateGetDeleteTodo)
 

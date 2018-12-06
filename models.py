@@ -23,10 +23,8 @@ class Tasks(Base):
     id = Column(
         INTEGER(unsigned=True),
         primary_key=True,
-        # nullable=False,
         autoincrement=True
     )
-    img_path = Column(String, nullable=True)
     name = Column(String(256))
     text = Column(String(256))
     created_at = Column(

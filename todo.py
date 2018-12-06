@@ -10,13 +10,12 @@ from models import Tasks
 from sqlalchemy.exc import SQLAlchemyError
 
 
-def add_todo(name, text, img_path):
+def add_todo(name, text):
     """ todo listの追加 """
     try:
         task = Tasks(
             name=name,
-            text=text,
-            img_path=img_path
+            text=text
         )
         session.add(task)
         session.commit()
@@ -28,7 +27,8 @@ def add_todo(name, text, img_path):
     finally:
         session.close()
 
-def update_todo(id, name, text, img_path):
+
+def update_todo(id, name, text):
     """ todo listの更新 """
     try:
         """ SELECT 時に排他ロックを取得 """
@@ -45,8 +45,7 @@ def update_todo(id, name, text, img_path):
         """ name, text, img_pathの更新 """
         task.name = name
         task.text = text
-        task.img_path = img_path
-        
+
         session.commit()
 
     except SQLAlchemyError as e:
@@ -55,6 +54,7 @@ def update_todo(id, name, text, img_path):
         session.rollback()
     finally:
         session.close()
+
 
 def delete_todo(id):
     """ todo listの削除 """
@@ -74,6 +74,7 @@ def delete_todo(id):
     finally:
         session.close()
 
+
 def get_todo_list():
     """ todo listを全て取得 """
     task_list = []
@@ -88,7 +89,6 @@ def get_todo_list():
 
             task_list.append({
                 "id": task.id,
-                "img_path": task.img_path,
                 "name": task.name,
                 "text": task.text,
                 "created_at": created_at.strftime('%Y-%m-%d %H:%M:%S'),
@@ -99,6 +99,7 @@ def get_todo_list():
     finally:
         session.close()
         return task_list
+
 
 def get_todo(id):
     """ todo listを取得 """
@@ -115,7 +116,6 @@ def get_todo(id):
             updated_at = task.updated_at
             task_dict = {
                 "id": task.id,
-                "img_path": task.img_path,
                 "name": task.name,
                 "text": task.text,
                 "created_at": created_at.strftime('%Y-%m-%d %H:%M:%S'),
