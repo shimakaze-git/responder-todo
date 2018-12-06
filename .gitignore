@@ -1,2 +1,4 @@
 __pycache__
-db.slite3
+db.sqlite3
+node_modules
+dist

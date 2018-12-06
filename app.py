@@ -15,7 +15,10 @@ from todo import update_todo
 from todo import get_todo
 from todo import get_todo_list
 
-api = responder.API()
+api = responder.API(
+    cors=True,
+    allowed_hosts=["*"],
+)
 
 
 class UpdateGetDeleteTodo:
