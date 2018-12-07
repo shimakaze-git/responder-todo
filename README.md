@@ -2,7 +2,7 @@
 responderを使って簡易的なtodoアプリ
 
 # install
-まず最初にstarletteとresponderのインストールが必用です
+まず最初にstarletteとresponderのインストールが必要です
 
 ```
 $ pip install starlette==0.8.0
